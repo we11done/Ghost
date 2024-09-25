@@ -183,6 +183,8 @@ jobs:
 
   job_coverage:
     name: Coverage
+    environment:
+      name: test
     needs: [job_database-tests, job_unit-tests]
     runs-on: ubuntu-latest
     steps:
