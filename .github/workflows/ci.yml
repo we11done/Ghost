@@ -52,13 +52,10 @@ jobs:
       - name: Build packages
         run: yarn nx run-many -t build:ts
 
-      - name: Set up Snyk
-        uses: snyk/actions/setup@master
-
   job_lint-and-security:
     runs-on: ubuntu-latest
     needs: [job_setup]
-    name: Lint
+    name: Lint and Security
     environment:
       name: test
     outputs:
@@ -78,6 +75,10 @@ jobs:
 
       - name: Run Lint
         run: yarn nx affected -t lint
+
+      - name: Set up Snyk
+        uses: snyk/actions/setup@master
+
       - name: Check for security vulnerabilities
         id: snyk
 
