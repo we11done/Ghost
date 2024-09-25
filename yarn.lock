@@ -11609,7 +11609,7 @@ __metadata:
     c8: 8.0.1
     lodash: 4.17.21
     mocha: 10.2.0
-    moment: 2.29.4
+    moment: 2.24.0
     should: 13.2.3
     sinon: 15.2.0
   languageName: unknown
