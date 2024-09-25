@@ -22,20 +22,35 @@ jobs:
       - name: Checkout current commit
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        env:
-          FORCE_COLOR: 0
-        with:
-          node-version: "18.12.1"
-
-      - name: Install dependencies
-        run: |
-          yarn install --frozen-lockfile
-
       - name: Output GitHub context
         run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+
+      - name: Nx cache
+        uses: actions/cache@v4
+        id: cache_nx
+        with:
+          path: .nxcache
+          key: nx-Linux-${{ github.ref }}-${{ env.HEAD_COMMIT }}
+          restore-keys: |
+            nx-Linux-${{ github.ref }}-${{ env.HEAD_COMMIT }}
+            nx-Linux-${{ github.ref }}
+            nx-Linux
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        env:
+          FORCE_COLOR: 0
+        with:
+          node-version: "18.12.1"
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline --frozen-lockfile
+
+      - name: Build packages
+        run: yarn nx run-many -t build:ts
 
       - name: Set up Snyk
         uses: snyk/actions/setup@master
@@ -69,8 +84,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           message: |
             # Pipeline Results
-            ## Linting
-            ${{ steps.ruff.conclusion }}
             ## Security
             ${{ steps.snyk.outputs.message }}
 
