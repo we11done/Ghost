@@ -65,6 +65,16 @@ jobs:
       message: ${{ steps.snyk.outputs.message }}
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        env:
+          FORCE_COLOR: 0
+        with:
+          node-version: "18.12.1"
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Run Lint
         run: yarn nx affected -t lint
@@ -105,6 +115,8 @@ jobs:
           FORCE_COLOR: 0
         with:
           node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - run: yarn nx affected -t test:unit
 
