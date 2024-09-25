@@ -47,7 +47,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --prefer-offline --frozen-lockfile
+        run: yarn install
 
       - name: Build packages
         run: yarn nx run-many -t build:ts
@@ -209,7 +209,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install
 
       - name: Deploy to Dockerhub
         run: |
