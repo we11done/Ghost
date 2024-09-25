@@ -51,11 +51,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint with Ruff
-        id: ruff
-        uses: chartboost/ruff-action@v1
-        with:
-          src: "./Ghost/src"
+      - name: Run ESLint
+        run: eslint . --ext .js,.jsx,.ts,.tsx
       - name: Check for security vulnerabilities
         id: snyk
 
