@@ -6,8 +6,10 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
-RUN yarn install ghost
+RUN yarn add ghost-cli@latest -g
+
+RUN ghost install local
 
 COPY . .
 
-CMD ["yarn", "ghost", "start"]
+CMD ["ghost", "start"]
