@@ -6,7 +6,7 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
-RUN yarn add ghost-cli@latest
+RUN yarn add ghost-cli@latest --ignore-workspace-root-check
 
 RUN ghost install local
 
